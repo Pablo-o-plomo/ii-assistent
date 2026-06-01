@@ -1,0 +1,25 @@
+services:
+  naum-bot:
+    build: .
+    env_file: .env
+    restart: unless-stopped
+    volumes:
+      - naum-data:/app/data
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: naum
+      POSTGRES_USER: naum
+      POSTGRES_PASSWORD: naum_password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  naum-data:
+  postgres-data:
